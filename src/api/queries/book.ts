@@ -20,6 +20,12 @@ interface UseBooksFilterParams {
   limit?: number
 }
 
+interface UseOtherBooksParams {
+  bookId?: string
+  page?: number
+  limit?: number
+}
+
 export function useBooks({ page = 1, limit = 10 }: UseBooksParams = {}) {
   return useQuery({
     queryKey: ['books', page, limit],
@@ -65,5 +71,19 @@ export function useBooksDetail(slug: string) {
       return data
     },
     enabled: !!slug,
+  })
+}
+
+export function useOtherBooks({ bookId, page = 1, limit = 10 }: UseOtherBooksParams = {}) {
+  return useQuery({
+    queryKey: ['other-books', bookId, page, limit],
+    queryFn: async () => {
+      const { data } = await apiClient.get(API_ENDPOINTS.BOOKS.OTHER(bookId!), {
+        params: { page, limit }
+      })
+      return data.data
+    },
+    enabled: !!bookId,
+    staleTime: 30000, 
   })
 }

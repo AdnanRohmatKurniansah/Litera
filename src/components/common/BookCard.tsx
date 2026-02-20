@@ -4,7 +4,7 @@ import { Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner' 
 import type { Book, Wishlist } from '@/types'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useAddWishlist, useDeleteWishlist, useWishlist } from '@/api/queries/wishlist'
 import { AxiosError } from 'axios'
 import { useAuth } from '@/context/UserContext'
@@ -21,7 +21,7 @@ const BookCardSkeleton = () => (
 
 const BookCard = ({ book }: { book: Book }) => {
   const { isAuthenticated } = useAuth()
-
+  const navigate = useNavigate()
   const { data: wishlist } = useWishlist(isAuthenticated)
   const addWishlist = useAddWishlist()
   const deleteWishlist = useDeleteWishlist()
@@ -35,7 +35,7 @@ const BookCard = ({ book }: { book: Book }) => {
   const toggleWishlist = async () => {
     if (!isAuthenticated) {
       toast.error('Please login first')
-      return
+      navigate('/login')
     }
 
     try {

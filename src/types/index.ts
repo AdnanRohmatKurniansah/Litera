@@ -73,3 +73,12 @@ export type Wishlist = {
   created_at: string
   updated_at: string
 }
+
+export type Cart = {
+  id: string
+  userId: string
+  bookId: string
+  qty: number
+  created_at: string
+  updated_at: string
+}

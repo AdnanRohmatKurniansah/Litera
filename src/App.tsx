@@ -12,6 +12,7 @@ import Promo from './pages/Promo/PromoPage'
 import ScrollToTop from './components/common/ScrollToTop'
 import ArticleDetail from './pages/Articles/ArticleDetail'
 import Books from './pages/Books/BooksPage'
+import BookDetail from './pages/Books/Detail/BookDetail'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='about-us' element={<About />} />
           <Route path='books' element={<Books />} />
+          <Route path='books/:slug' element={<BookDetail />} />
           <Route path='articles' element={<Articles />} />
           <Route path='articles/:slug' element={<ArticleDetail />} />
           <Route path='promo' element={<Promo />} />

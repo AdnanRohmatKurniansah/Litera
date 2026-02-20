@@ -20,7 +20,8 @@ export const API_ENDPOINTS = {
 
   BOOKS: {
     LIST: '/book',
-    DETAIL: (slug: string) => `/book/${slug}`,
+    DETAIL: (slug: string) => `/book/slug/${slug}`,
+    OTHER: (id: string) => `/book/other/${id}`,
     FILTER: '/book/filter',
     DISCOUNTED: '/book/discounted',
   },
@@ -29,9 +30,9 @@ export const API_ENDPOINTS = {
     LIST: (bookId: string) => `/book/images/${bookId}`,
   },
 
-  CARTS: {
+  CART: {
     LIST: '/cart',                 
-    CREATE: '/cart/add',
+    ADD: '/cart/add',
     UPDATE: (id: string) => `/cart/item/${id}`,
     DELETE: (id: string) => `/cart/item/delete/${id}`,
   },
