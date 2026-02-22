@@ -136,7 +136,7 @@ const LoginPage = () => {
                     </div>
 
                     <Button disabled={loginMutation.isPending} type="submit" className="w-full">
-                      {loginMutation.isPending ? 'Registering...' : 'Register'}
+                      {loginMutation.isPending ? 'Signing in...' : 'Sign in'}
                     </Button>
                     <p className="text-center text-sm text-muted-foreground">
                       Don't have an account?{' '}

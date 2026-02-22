@@ -7,14 +7,14 @@ import { useUpdateProfile } from '@/api/queries/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Loader2 } from 'lucide-react'
 import { UserProfileUpdateSchema, type UserProfileUpdateInput } from '@/lib/schema/auth.schema'
 import AvatarUpload from './AvatarUpload'
 import ProfileFormSkeleton from './ProfileFormSkeleton'
 import { AxiosError } from 'axios'
+import UpdatePassword from './UpdatePassword'
 
 const ProfileForm = () => {
-  const { user, isInitialized } = useAuth()
+  const { user, isInitialized, emailMethod } = useAuth()
   const updateMutation = useUpdateProfile()
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
@@ -45,50 +45,52 @@ const ProfileForm = () => {
   if (!isInitialized) return <ProfileFormSkeleton />
 
   return (
-    <div className="border rounded-md bg-white">
-      <div className="p-4">
-        <h3 className="font-semibold text-xl mb-1">Account Information</h3>
-        <p className="text-muted-foreground text-sm">Update your personal details</p>
-      </div>
-      <Separator />
-      <AvatarUpload user={user} updateMutation={updateMutation} />
-      <Separator />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="p-4 space-y-4">
-          <div>
-            <Label className="mb-2 block">Full Name</Label>
-            <Input {...register("name")} />
-            {errors.name && (
-              <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
-            )}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label className="mb-2 block">Email</Label>
-              <Input value={user?.email ?? ""} readOnly className="bg-muted cursor-not-allowed" />
-            </div>
-            <div>
-              <Label className="mb-2 block">Phone Number</Label>
-              <Input {...register("phone")} />
-              {errors.phone && (
-                <p className="text-destructive text-xs mt-1">{errors.phone.message}</p>
-              )}
-            </div>
-          </div>
+    <>
+      <div className="border rounded-md bg-white">
+        <div className="p-5">
+          <h3 className="font-semibold text-lg text-gray-800 mb-1">Account Information</h3>
+          <p className="text-muted-foreground text-sm">Update your personal details</p>
         </div>
         <Separator />
-        <div className="flex justify-end gap-2 p-4">
-          <Button variant="ghost" type="button" onClick={() => reset()} disabled={updateMutation.isPending}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={updateMutation.isPending}>
-            {updateMutation.isPending ? (
-              <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Saving...</>
-            ) : "Save Changes"}
-          </Button>
-        </div>
-      </form>
-    </div>
+        <AvatarUpload user={user} updateMutation={updateMutation} />
+        <Separator />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="p-5 space-y-4">
+            <div>
+              <Label className="mb-2 block">Full Name</Label>
+              <Input {...register("name")} />
+              {errors.name && (
+                <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="mb-2 block">Email</Label>
+                <Input value={user?.email ?? ""} readOnly className="bg-muted cursor-not-allowed" />
+              </div>
+              <div>
+                <Label className="mb-2 block">Phone Number</Label>
+                <Input {...register("phone")} />
+                {errors.phone && (
+                  <p className="text-destructive text-xs mt-1">{errors.phone.message}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 p-4">
+            <Button variant="ghost" type="button" onClick={() => reset()} disabled={updateMutation.isPending}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={updateMutation.isPending}>
+              {updateMutation.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </form>
+      </div>
+      {emailMethod && (
+        <UpdatePassword />
+      )}
+    </>
   )
 }
 

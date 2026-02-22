@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronRight } from 'lucide-react';
-import { Link, useNavigate } from "react-router"
+import { Link } from "react-router"
 import type { User as UserData } from "@/types"
 import { useLogout } from "@/api/queries/auth"
 import { toast } from "sonner"
@@ -16,14 +16,10 @@ interface Props {
 }
 
 const UserDropdown = ({ user }: Props) => {
-  const navigate = useNavigate()
   const logoutMutation = useLogout()
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        navigate("/")
-      },
       onError: () => {
         toast.error("Failed to logout")
       },
@@ -34,7 +30,7 @@ const UserDropdown = ({ user }: Props) => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="relative h-10 w-10 rounded-full overflow-hidden ring-2 ring-transparent hover:ring-primary/40 transition-all duration-200 shrink-0">
-          <img  src={user.profile || "/images/default-avatar.png"} alt="User Avatar" className="h-full w-full object-cover" />
+          <img  src={user.profile || "/images/auth/default-avatar.png"} alt="User Avatar" className="h-full w-full object-cover" />
         </button>
       </DropdownMenuTrigger>
 

@@ -18,6 +18,7 @@ import GuestRoute from './layouts/guards/GuestRoute'
 import LoginPage from './pages/Auth/Login/LoginPage'
 import ProtectedRoute from './layouts/guards/ProtectedRoute'
 import AccountPage from './pages/Auth/Account/AccountPage'
+import WishlistPage from './pages/Auth/Account/Wishlist/WishlistPage'
 
 function App() {
 
@@ -44,8 +45,9 @@ function App() {
           <Route path='privacy-policy' element={<Privacy />} />
           <Route path='contact-us' element={<Contact />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path="/account" element={<AccountPage />} />
+          <Route path="/account" element={<ProtectedRoute />}>
+            <Route index element={<AccountPage />} />
+            <Route path="wishlist" element={<WishlistPage />} />
           </Route>
         </Route>
 

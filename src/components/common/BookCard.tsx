@@ -26,8 +26,6 @@ const BookCard = ({ book }: { book: Book }) => {
   const addWishlist = useAddWishlist()
   const deleteWishlist = useDeleteWishlist()
 
-  console.log(wishlist)
-
   const wishlistItem = useMemo(() => {
     if (!wishlist?.items) return null
 

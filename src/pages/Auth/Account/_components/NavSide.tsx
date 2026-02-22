@@ -18,16 +18,11 @@ const menu = [
     label: 'Wishlist',
     url: '/account/wishlist',
   },
-  {
-    label: 'Change Password',
-    url: '/account/change-password',
-    emailOnly: true,
-  }
 ]
 
 const NavigationSide = () => {
   const { pathname } = useLocation()
-  const { user, emailMethod, isInitialized } = useAuth()
+  const { user, isInitialized } = useAuth()
   const navigate = useNavigate()
   const logoutMutation = useLogout()
 
@@ -40,7 +35,6 @@ const NavigationSide = () => {
 
   return (
     <div className="border rounded-md p-4 mb-10 md:mb-4">
-      {/* User Info */}
       {!isInitialized ? (
         <div className="flex items-center gap-3 pb-4 border-b mb-6 animate-pulse">
           <div className="w-12 h-12 rounded-full shrink-0 bg-gray-200" />
@@ -52,7 +46,7 @@ const NavigationSide = () => {
       ) : (
         <div className="flex items-center gap-3 pb-4 border-b mb-6">
           <img
-            src={user?.profile || "/images/default-avatar.png"}
+            src={user?.profile || "/images/auth/default-avatar.png"}
             alt={user?.name}
             className="w-12 h-12 rounded-full object-cover shrink-0"
           />
@@ -65,7 +59,6 @@ const NavigationSide = () => {
 
       <div className="space-y-1">
         {menu
-          .filter(item => !item.emailOnly || emailMethod)
           .map((item) => {
             const isActive = pathname === item.url
             return (

@@ -1,8 +1,11 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import NavigationSide from "./_components/NavSide"
 import ProfileForm from "./_components/ProfileForm"
+import { PageMetadata } from "@/components/common/PageMetadata"
 
 const AccountPage = () => {
+  PageMetadata({ title: "Account Information | Litera" })
+
   return (
     <section className="books-detail">
       <div className="relative pt-6 w-full px-5 md:px-32 pb-10 md:pb-20">
@@ -20,7 +23,7 @@ const AccountPage = () => {
           </Breadcrumb>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="nav-side relative md:sticky md:top-22 h-fit col-span-4 md:col-span-1">
+            <div className="nav-side relative md:sticky md:top-28 h-fit col-span-4 md:col-span-1">
               <NavigationSide />
             </div>
             <div className="account col-span-4 md:col-span-3 mb-8">
@@ -29,7 +32,6 @@ const AccountPage = () => {
           </div>
         </div>
       </div>
-
     </section>
   )
 }

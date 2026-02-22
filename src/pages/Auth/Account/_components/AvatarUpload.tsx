@@ -14,7 +14,7 @@ interface AvatarUploadProps {
 const AvatarUpload = ({ user, updateMutation }: AvatarUploadProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string>(
-    user?.profile ?? "/images/default-avatar.png"
+    user?.profile ?? "/images/auth/default-avatar.png"
   )
   const [file, setFile] = useState<File | null>(null)
 
@@ -58,7 +58,7 @@ const AvatarUpload = ({ user, updateMutation }: AvatarUploadProps) => {
         <p className="font-medium text-sm truncate">{user?.name}</p>
         <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
         <div className="flex gap-2 mt-2">
-          <Button size="sm" variant="secondary" type="button" onClick={handleUpload} disabled={!file || updateMutation.isPending}>
+          <Button size="sm" className="text-sm" variant="secondary" type="button" onClick={handleUpload} disabled={!file || updateMutation.isPending}>
             {updateMutation.isPending ? "Saving..." : "Change Avatar"}
           </Button>
           {file && (
