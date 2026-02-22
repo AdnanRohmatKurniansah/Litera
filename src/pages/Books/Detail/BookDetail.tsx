@@ -19,13 +19,14 @@ import { useAddCart, useCart, useDeleteCart } from "@/api/queries/cart"
 import type { Cart } from "@/types"
 import { AxiosError } from "axios"
 import { useMemo } from "react"
+import BookReview from "./_components/BookReview"
 
 const BookDetail = () => {
   const { slug } = useParams<{ slug: string }>()
   const { data, isLoading } = useBooksDetail(slug ?? "")
   const book = data?.data
 
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
   const { data: cart } = useCart(isAuthenticated)
   const addCart = useAddCart()
@@ -41,7 +42,9 @@ const BookDetail = () => {
   }
 
   const cartItem = useMemo(() => {
-    return cart?.find((item: Cart) => item.bookId === book?.id)
+    if (!cart?.items) return null
+
+    return cart?.items.find((item: Cart) => item.bookId === book?.id)
   }, [cart, book?.id])
 
   if (isLoading) {
@@ -55,7 +58,7 @@ const BookDetail = () => {
   if (!book) return <Navigate to="/404" replace />
 
   const hasDiscount = book.discount_price && book.discount_price > 0
-
+  const isCartProcessing = addCart.isPending || deleteCart.isPending
   const isCarted = !!cartItem
 
   const toggleCart = async () => {
@@ -69,14 +72,31 @@ const BookDetail = () => {
 
     try {
       if (isCarted && cartItem) {
-        await deleteCart.mutateAsync(cartItem.id)
-        toast.success('Removed from cart')
-      } else {
-        await addCart.mutateAsync({
-          bookId: book.id,
-          qty: 1
+        await deleteCart.mutateAsync(cartItem.id, {
+          onSuccess: (res) => {
+            toast.success(res.message)
+          },
+          onError: (error) => {            
+            if (error instanceof AxiosError) {
+              toast.error(error.response?.data?.message)
+            } else {
+              toast.error("Something went wrong")
+            }
+          },
         })
-        toast.success('Added to cart')
+      } else {
+        await addCart.mutateAsync({ bookId: book.id, qty: 1 }, {
+          onSuccess: (res) => {
+            toast.success(res.message)
+          },
+          onError: (error) => {            
+            if (error instanceof AxiosError) {
+              toast.error(error.response?.data?.message)
+            } else {
+              toast.error("Something went wrong")
+            }
+          },
+        })
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -138,13 +158,18 @@ const BookDetail = () => {
                 )}
               </div>
               <div className="actions flex gap-3 flex-wrap">
-                <Button disabled={book.qty === 0 || addCart.isPending || deleteCart.isPending} onClick={toggleCart} className="flex-1 md:flex-none">
+                <Button disabled={book.qty === 0 || isCartProcessing} onClick={toggleCart}
+                  className="flex-1 md:flex-none">
                   <ShoppingCart className="w-4 h-4 mr-2" />
                   {book.qty === 0
-                  ? "Out of Stock"
-                  : isCarted
-                  ? "Remove from Cart"
-                  : "Add to Cart"}
+                    ? "Out of Stock"
+                    : addCart.isPending
+                    ? "Adding to cart..."
+                    : deleteCart.isPending
+                    ? "Removing from cart..."
+                    : isCarted
+                    ? "Remove from Cart"
+                    : "Add to Cart"}
                 </Button>
                 <Button variant="outline" onClick={CopyUrl}>
                   <Share2 className="w-4 h-4 mr-1" /> Share
@@ -192,17 +217,7 @@ const BookDetail = () => {
                 </div>
               </div>
 
-              <div className="review mt-6 md:mt-10">
-                <h6 className="font-bold text-2xl tracking-wide mb-10">Product Reviews</h6>
-                <div className="block md:flex gap-16 md:gap-32 items-center justify-center">
-                  <img className="mx-auto md:mx-0" src="/images/review-empty.png" alt="Review empty" width={200} />
-                  <div className="text-gray-700 font-medium text-center">
-                    <h5 className="text-[18px] mb-1 font-bold">There are no reviews for this product yet</h5>
-                    <p className="text-sm mb-4 text-gray-500">Be the first to leave a review!</p>
-                    <Button className="w-2/4 md:w-full" variant={'outline'}>Write Review</Button>
-                  </div>
-                </div>
-              </div>
+              <BookReview bookId={book.id} user={user} />
             </div>
           </div>
         </div>

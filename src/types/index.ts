@@ -1,9 +1,9 @@
-export interface ApiErrorResponse {
+export type ApiErrorResponse = {
   success: boolean
   message: string
 }
 
-export interface User {
+export type User = {
   id: string
   name?: string
   email?: string
@@ -15,7 +15,7 @@ export interface User {
   updated_at: string
 }
 
-export interface Category {
+export type Category = {
   id: string
   name: string
   slug: string
@@ -24,7 +24,7 @@ export interface Category {
   updated_at: string
 }
 
-export interface Book {
+export type Book = {
   id: string
   name: string
   slug: string
@@ -46,7 +46,7 @@ export interface Book {
   updated_at: string
 }
 
-export interface Article {
+export type Article = {
   id: string
   title: string
   slug: string
@@ -81,4 +81,26 @@ export type Cart = {
   qty: number
   created_at: string
   updated_at: string
+}
+
+export type Review = {
+  id: string
+  userId: string
+  bookId: string
+  rating: number
+  comment?: string
+  created_at: string
+  user?: {
+    id: string
+    name: string
+    profile?: string
+  }
+  book?: {
+    id: string
+    name: string
+    slug: string
+    image_url?: string
+    price?: number
+    discount_price?: number
+  }
 }

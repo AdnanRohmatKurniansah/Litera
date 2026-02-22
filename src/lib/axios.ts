@@ -13,7 +13,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = Cookies.get('admin_token')
+    const token = Cookies.get('user_token')
     
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`

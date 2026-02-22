@@ -26,8 +26,9 @@ export function useAddCart() {
       const { data } = await apiClient.post(API_ENDPOINTS.CART.ADD, { bookId, qty })
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
+      return res
     },
   })
 }
@@ -42,8 +43,9 @@ export function useDeleteCart() {
       )
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
+      return res
     },
   })
 }

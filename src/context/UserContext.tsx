@@ -6,7 +6,7 @@ import type { User } from '@/types'
 
 interface AuthContextType {
   user: User | null
-  isLoading: boolean
+  isInitialized: boolean  
   isAuthenticated: boolean
   emailMethod: boolean
   login: (token: string, emailMethod: boolean) => Promise<void>
@@ -18,10 +18,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const emailMethod = user?.provider == "Email"
-  const isAuthenticated = Boolean(user)
+
+  const isAuthenticated = Boolean(CookieService.getUserToken()) || Boolean(user)
 
   useEffect(() => {
     checkAuth()
@@ -31,18 +32,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const userToken = CookieService.getUserToken()
 
-      if (!userToken && !userToken) {
-        setIsLoading(false)
+      if (!userToken) {
+        setIsInitialized(true) 
         return
       }
 
-      const response = await apiClient.get(API_ENDPOINTS.AUTH.USER_PROFILE )
+      const response = await apiClient.get(API_ENDPOINTS.AUTH.USER_PROFILE)
       setUser(response.data.data)
     } catch (error) {
       console.error('Auth check failed:', error)
       CookieService.clearAll()
     } finally {
-      setIsLoading(false)
+      setIsInitialized(true) 
     }
   }
 
@@ -55,18 +56,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const login = async (token: string, isUserLogin: boolean) => {
-    if (isUserLogin) {
-      CookieService.setUserToken(token)
-    } else {
-      CookieService.setUserToken(token)
-    }
+  const login = async (token: string) => {
+    CookieService.setUserToken(token)
     await checkAuth()
   }
 
   const logout = async () => {
     try {
-      await apiClient.post(API_ENDPOINTS.AUTH.USER_LOGOUT )
+      await apiClient.post(API_ENDPOINTS.AUTH.USER_LOGOUT)
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
@@ -80,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        isLoading,
+        isInitialized, 
         isAuthenticated,
         emailMethod,
         login,

@@ -21,8 +21,9 @@ export function useAddWishlist() {
       const { data } = await apiClient.post(API_ENDPOINTS.WISHLIST.ADD, { bookId })
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] })
+      return res
     },
   })
 }
@@ -37,8 +38,9 @@ export function useDeleteWishlist() {
       )
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] })
+      return res
     },
   })
 }

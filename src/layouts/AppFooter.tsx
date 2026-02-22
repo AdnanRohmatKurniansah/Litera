@@ -56,7 +56,7 @@ const Footer = ({
       ],
     },
   ],
-  copyright = "© 2026 ARK. All rights reserved.",
+  copyright = `© ${new Date().getFullYear()} ARK. All rights reserved.`,
   mobileApp = {
     title: "Our Mobile App",
     description: "Download our app which is available on all iOS and Android devices",

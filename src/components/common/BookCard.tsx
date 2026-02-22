@@ -26,8 +26,12 @@ const BookCard = ({ book }: { book: Book }) => {
   const addWishlist = useAddWishlist()
   const deleteWishlist = useDeleteWishlist()
 
+  console.log(wishlist)
+
   const wishlistItem = useMemo(() => {
-    return wishlist?.find((item: Wishlist) => item.bookId === book.id)
+    if (!wishlist?.items) return null
+
+    return wishlist?.items?.find((item: Wishlist) => item.bookId === book.id)
   }, [wishlist, book.id])
 
   const isWishlisted = !!wishlistItem
@@ -36,15 +40,36 @@ const BookCard = ({ book }: { book: Book }) => {
     if (!isAuthenticated) {
       toast.error('Please login first')
       navigate('/login')
+      return
     }
 
     try {
       if (isWishlisted && wishlistItem) {
-        await deleteWishlist.mutateAsync(wishlistItem.id)
-        toast.success('Removed from wishlist')
+        await deleteWishlist.mutateAsync(wishlistItem.id, {
+          onSuccess: (res) => {
+            toast.success(res.message)
+          },
+          onError: (error) => {            
+            if (error instanceof AxiosError) {
+              toast.error(error.response?.data?.message)
+            } else {
+              toast.error("Something went wrong")
+            }
+          },
+        })
       } else {
-        await addWishlist.mutateAsync(book.id)
-        toast.success('Added to wishlist')
+        await addWishlist.mutateAsync(book.id, {
+          onSuccess: (res) => {
+            toast.success(res.message)
+          },
+          onError: (error) => {            
+            if (error instanceof AxiosError) {
+              toast.error(error.response?.data?.message)
+            } else {
+              toast.error("Something went wrong")
+            }
+          },
+        })
       }
     } catch (error) {
       if (error instanceof AxiosError) {

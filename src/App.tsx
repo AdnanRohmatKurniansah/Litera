@@ -13,6 +13,11 @@ import ScrollToTop from './components/common/ScrollToTop'
 import ArticleDetail from './pages/Articles/ArticleDetail'
 import Books from './pages/Books/BooksPage'
 import BookDetail from './pages/Books/Detail/BookDetail'
+import RegisterPage from './pages/Auth/Register/RegisterPage'
+import GuestRoute from './layouts/guards/GuestRoute'
+import LoginPage from './pages/Auth/Login/LoginPage'
+import ProtectedRoute from './layouts/guards/ProtectedRoute'
+import AccountPage from './pages/Auth/Account/AccountPage'
 
 function App() {
 
@@ -20,6 +25,11 @@ function App() {
     <>
       <ScrollToTop />
       <Routes>
+        <Route element={<GuestRoute />}>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
+
         <Route path="/" element={
           <AppLayout />
         }>
@@ -33,6 +43,10 @@ function App() {
           <Route path='terms-conditions' element={<Terms />} />
           <Route path='privacy-policy' element={<Privacy />} />
           <Route path='contact-us' element={<Contact />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/account" element={<AccountPage />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />

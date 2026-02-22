@@ -23,10 +23,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Link, useNavigate } from "react-router"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { useCategories } from "@/api/queries/category"
 import type { Category } from "@/types"
+import { useAuth } from "@/context/UserContext"
+import UserDropdown from "./UserDropdown"
+import { useCart } from "@/api/queries/cart"
 
 
 interface MenuItem {
@@ -92,6 +95,21 @@ const Header = ({
   const navigate = useNavigate()
   const [scrolled, setScrolled] = useState(false)
 
+  const { isAuthenticated, isInitialized, user } = useAuth()
+  const { data, isLoading } = useCategories({ limit: 20 })
+  const categories: Category[] = data?.data || []
+  const { data: cart } = useCart(isAuthenticated)
+
+  const cartCount = useMemo(() => {
+    if (!cart?.items) return 0
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return cart.items.reduce((total: number, item: any) => {
+      return total + (item.qty ?? 1)
+    }, 0)
+
+  }, [cart])
+
   useEffect(() => {
     setLocalSearch(searchFromUrl)
   }, [searchFromUrl])
@@ -101,9 +119,6 @@ const Header = ({
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  const { data, isLoading } = useCategories({ limit: 20 })
-  const categories: Category[] = data?.data || []
 
   const categoryMenuItem: MenuItem = {
     title: "Category",
@@ -136,7 +151,7 @@ const Header = ({
 
   return (
     <div className="head relative">
-     <div className={`fixed top-0 left-0 right-0 z-40 bg-primary px-5 md:px-24 overflow-hidden transition-all duration-300 ${scrolled ? "h-0 py-0" : "h-[25px] md:h-[36px] py-1 md:py-2"}`}>
+     <div className={`fixed top-0 left-0 right-0 z-40 bg-primary px-5 md:px-24 overflow-hidden transition-all duration-300 ${scrolled ? "h-0 py-0" : "h-[25px] md:h-[32px] py-1 md:py-2"}`}>
         <div className="flex items-center gap-4 justify-end text-white container mx-auto">
           <Link to={"about-us"} className="ms-2 text-[11px] underline md:text-[13px] font-medium">
             About Us
@@ -149,7 +164,6 @@ const Header = ({
           </Link>
         </div>
       </div>
-
       <section className={`fixed left-0 right-0 z-50 bg-white py-4 px-5 md:px-24 border-b shadow-sm transition-all duration-300 ${scrolled ? "top-0" : "top-[32px] md:top-[36px]"}`}>
         <div className="container mx-auto">
           <nav className="hidden lg:flex items-center justify-between gap-4">
@@ -191,22 +205,36 @@ const Header = ({
                 </form>
               </div>
 
-              <Link to={"/cart"} className="flex items-center ps-3 gap-2 shrink-0">
+              <Link to={"/cart"} className="relative flex items-center ps-3 gap-2 shrink-0">
                 <ShoppingCart className="text-gray-600 w-5 font-normal" />
+
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
 
             <div className="flex items-center gap-4 w-1/3 justify-end">
-              <Button variant={"outline"} asChild size="lg">
-                <Link className="group" to={option.login.url}>
-                  {option.login.title}
-                </Link>
-              </Button>
-              <Button asChild size="lg">
-                <Link className="group" to={option.register.url}>
-                  {option.register.title}
-                </Link>
-              </Button>
+              {!isInitialized ? (
+                <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
+              ) : isAuthenticated && user ? (
+                <UserDropdown user={user} />
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Button variant={"outline"} asChild size="lg">
+                    <Link className="group" to={option.login.url}>
+                      {option.login.title}
+                    </Link>
+                  </Button>
+                  <Button asChild size="lg">
+                    <Link className="group" to={option.register.url}>
+                      {option.register.title}
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </nav>
 
@@ -259,15 +287,20 @@ const Header = ({
                         )}
                       </Accordion>
 
-                      <div className="flex flex-col gap-3">
-                        <Button variant={"outline"} asChild>
-                          <Link to={option.login.url}>{option.login.title}</Link>
-                        </Button>
-                        <Button asChild>
-                          <Link to={option.register.url}>{option.register.title}</Link>
-                        </Button>
-                      </div>
-
+                      {!isInitialized ? (
+                        <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
+                      ) : isAuthenticated && user ? (
+                        <UserDropdown user={user} />
+                      ) : (
+                        <div className="flex flex-col gap-3">
+                          <Button variant={"outline"} asChild>
+                            <Link to={option.login.url}>{option.login.title}</Link>
+                          </Button>
+                          <Button asChild>
+                            <Link to={option.register.url}>{option.register.title}</Link>
+                          </Button>
+                        </div>
+                      )}
                       <div className="search flex items-center relative w-full">
                         <form onSubmit={handleSearch} className="relative w-full">
                           <span className="absolute inset-y-0 start-4 pe-4 flex items-center text-gray-400">
@@ -294,7 +327,6 @@ const Header = ({
 
         </div>
       </section>
-
       <div className={`transition-all duration-300 ${scrolled ? "h-[72px]" : "h-[104px] md:h-[128px]"}`} />
     </div>
   )
