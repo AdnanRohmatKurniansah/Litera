@@ -104,3 +104,20 @@ export type Review = {
     discount_price?: number
   }
 }
+
+export type Address = {
+  id: string
+  name: string
+  phone: string
+  province_id: string
+  province: string
+  city_id: string
+  city: string
+  district_id: string
+  district: string
+  street: string
+  zip: string
+  is_primary?: boolean
+  created_at: string
+  updated_at: string
+}

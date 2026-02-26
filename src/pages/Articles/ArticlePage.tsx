@@ -49,7 +49,7 @@ const Articles = () => {
                         <h3 className="font-bold text-[18px] md:text-2xl">Stay updated with the latest insights in literature and learning.</h3>
                     </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {isLoading ? (
                         Array.from({ length: 9 }).map((_, i) => (
                             <ArticleCardSkeleton key={i} />

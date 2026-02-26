@@ -15,6 +15,13 @@ interface Props {
   user: UserData
 }
 
+const menuLinks = [
+  { label: "Account", to: "/account" },
+  { label: "Transaction", to: "/account/transaction" },
+  { label: "Address", to: "/account/address" },
+  { label: "Wishlist", to: "/account/wishlist" },
+]
+
 const UserDropdown = ({ user }: Props) => {
   const logoutMutation = useLogout()
 
@@ -47,26 +54,18 @@ const UserDropdown = ({ user }: Props) => {
           )}
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link to="/account" className="flex justify-between items-center gap-2 rounded-md px-2 py-2 hover:bg-muted transition" >
-            <span>Account</span>
-            <ChevronRight />
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link to="/account/wishlist" className="flex justify-between items-center gap-2 rounded-md px-2 py-2 hover:bg-muted transition" >
-            <span>Transaction</span>
-            <ChevronRight />
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link to="/account/wishlist" className="flex justify-between items-center gap-2 rounded-md px-2 py-2 hover:bg-muted transition" >
-            <span>Wishlist</span>
-            <ChevronRight />
-          </Link>
-        </DropdownMenuItem>
+        
+        {menuLinks.map((item) => (
+          <DropdownMenuItem key={item.to} asChild>
+            <Link
+              to={item.to}
+              className="flex justify-between items-center gap-2 rounded-md px-2 py-2 hover:bg-muted transition"
+            >
+              <span>{item.label}</span>
+              <ChevronRight />
+            </Link>
+          </DropdownMenuItem>
+        ))}
 
         <DropdownMenuItem disabled={logoutMutation.isPending} onClick={handleLogout} className="flex justify-between items-center gap-2 rounded-md px-2 py-2  hover:bg-red-50 cursor-pointer transition">
           <span>Logout</span>

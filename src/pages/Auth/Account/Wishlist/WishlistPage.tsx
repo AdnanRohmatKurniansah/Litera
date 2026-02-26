@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { BookCard, BookCardSkeleton } from "@/components/common/BookCard"
 import type { Book } from "@/types"
 import { useWishlist } from "@/api/queries/wishlist"
+import { Link } from "react-router"
 
 const WishlistPage = () => {
   PageMetadata({ title: "My Wishlist | Litera" })
@@ -42,15 +43,27 @@ const WishlistPage = () => {
                     <div>
                         <h4 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-1">My Wishlist</h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400 pb-4">Keep track of the books you love and plan to read.</p>
+                        
                         <Separator />
-
                         <div className="grid grid-cols-2 pt-5 md:grid-cols-4 gap-4">
                             {isLoading ? (
                             Array.from({ length: 8 }).map((_, i) => <BookCardSkeleton key={i} />)
                             ) : books.length === 0 ? (
-                            <div className="text-center text-gray-500 col-span-full my-20">
-                                <img className="mx-auto" width={180} height={180} src="/images/empty.png" alt="empty data" />
-                                <p className="mt-4 text-[16px] md:text-[17px]">Your wishlist is empty</p>
+                            <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                              <img className="mx-auto" width={160} height={160} src="/images/wishlist-empty.png" alt="empty data" />
+                              <h5 className="text-lg font-semibold text-gray-800 dark:text-white">
+                                Your wishlist is empty
+                              </h5>
+                              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 max-w-md">
+                                You haven’t added any books yet. Start exploring and save your favorite titles to your wishlist.
+                              </p>
+
+                              <div className="mt-6">
+                                <Link to="/books"
+                                  className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-white hover:opacity-90 transition">
+                                  Explore Books
+                                </Link>
+                              </div>
                             </div>
                             ) : (
                             books.map((book: Book, i: number) => <BookCard key={i} book={book} />)

@@ -15,6 +15,10 @@ const menu = [
     url: '/account/transactions',
   },
   {
+    label: 'Address',
+    url: '/account/address',
+  },
+  {
     label: 'Wishlist',
     url: '/account/wishlist',
   },

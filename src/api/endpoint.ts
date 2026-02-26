@@ -39,12 +39,16 @@ export const API_ENDPOINTS = {
   },
 
   ADDRESSES: {
-    LIST: '/address',            
-    DETAIL: (id: string) => `/address/${id}`,     
+    LIST: '/address',
+    DETAIL: (id: string) => `/address/${id}`,
     CREATE: '/address/create',
-    UPDATE: (id: string) => `/address/change-primary/${id}`,
-    UPDATE_PRIMARY: (id: string) => `/address/update/${id}`,
-    DELETE: (id: string) => `/address/delete/delete/${id}`,
+    UPDATE: (id: string) => `/address/update/${id}`,
+    UPDATE_PRIMARY: (id: string) => `/address/change-primary/${id}`,
+    DELETE:  (id: string) => `/address/delete/${id}`,
+    PROVINCES: '/address/province',
+    CITIES:  (provinceId: string) => `/address/city/${provinceId}`,
+    DISTRICTS: (cityId: string) => `/address/district/${cityId}`,
+    SHIPPING_COST: '/address/cost',
   },
 
   ORDERS: {

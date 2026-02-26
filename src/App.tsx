@@ -19,6 +19,7 @@ import LoginPage from './pages/Auth/Login/LoginPage'
 import ProtectedRoute from './layouts/guards/ProtectedRoute'
 import AccountPage from './pages/Auth/Account/AccountPage'
 import WishlistPage from './pages/Auth/Account/Wishlist/WishlistPage'
+import AddressPage from './pages/Auth/Account/Address/AddressPage'
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="/account" element={<ProtectedRoute />}>
             <Route index element={<AccountPage />} />
             <Route path="wishlist" element={<WishlistPage />} />
+            <Route path="address" element={<AddressPage />} />
           </Route>
         </Route>
 
