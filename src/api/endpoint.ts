@@ -25,6 +25,7 @@ export const API_ENDPOINTS = {
     OTHER: (id: string) => `/book/other/${id}`,
     FILTER: '/book/filter',
     DISCOUNTED: '/book/discounted',
+    RECOMMENDED: '/book/recommended',
   },
 
   BOOK_IMAGES: {

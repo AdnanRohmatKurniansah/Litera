@@ -205,7 +205,7 @@ const Header = ({
                 </form>
               </div>
 
-              <Link to={"/cart"} className="relative flex items-center ps-3 gap-2 shrink-0">
+              <Link to={"/account/cart"} className="relative flex items-center ps-3 gap-2 shrink-0">
                 <ShoppingCart className="text-gray-600 w-5 font-normal" />
 
                 {cartCount > 0 && (
@@ -252,7 +252,7 @@ const Header = ({
               </Link>
 
               <div className="left flex gap-10">
-                <Link to={"/cart"} className="flex justify-end items-center ps-3 gap-2 shrink-0">
+                <Link to={"/account/cart"} className="flex justify-end items-center ps-3 gap-2 shrink-0">
                   <ShoppingCart className="text-gray-600 w-5 font-normal" />
                 </Link>
                 <Sheet>

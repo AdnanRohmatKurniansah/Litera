@@ -63,6 +63,19 @@ export function useBooksDiscounted() {
   })
 }
 
+export function useBooksRecommended({ limit = 10 }: {limit: number}) {
+  return useQuery({
+    queryKey: ['books-recommended', limit],
+    queryFn: async () => {
+      const { data } = await apiClient.get(API_ENDPOINTS.BOOKS.RECOMMENDED, {
+        params: { limit }
+      })
+      return data.data
+    },
+    staleTime: 30000, 
+  })
+}
+
 export function useBooksDetail(slug: string) {
   return useQuery<{ data: Book }>({
     queryKey: ['book', slug],

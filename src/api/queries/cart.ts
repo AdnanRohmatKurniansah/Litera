@@ -14,13 +14,12 @@ export function useCart(enabled: boolean) {
       const { data } = await apiClient.get(API_ENDPOINTS.CART.LIST)
       return data.data
     },
-    enabled, 
+    enabled,
   })
 }
 
 export function useAddCart() {
   const queryClient = useQueryClient()
-
   return useMutation({
     mutationFn: async ({ bookId, qty }: AddCartPayload) => {
       const { data } = await apiClient.post(API_ENDPOINTS.CART.ADD, { bookId, qty })
@@ -33,14 +32,25 @@ export function useAddCart() {
   })
 }
 
+export function useUpdateCart() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id, qty }: { id: string; qty: number }) => {
+      const { data } = await apiClient.put(API_ENDPOINTS.CART.UPDATE(id), { qty })
+      return data
+    },
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] })
+      return res
+    },
+  })
+}
+
 export function useDeleteCart() {
   const queryClient = useQueryClient()
-
   return useMutation({
     mutationFn: async (cartItemId: string) => {
-      const { data } = await apiClient.delete(
-        API_ENDPOINTS.CART.DELETE(cartItemId)
-      )
+      const { data } = await apiClient.delete(API_ENDPOINTS.CART.DELETE(cartItemId))
       return data
     },
     onSuccess: (res) => {

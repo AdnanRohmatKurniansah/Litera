@@ -20,6 +20,7 @@ import ProtectedRoute from './layouts/guards/ProtectedRoute'
 import AccountPage from './pages/Auth/Account/AccountPage'
 import WishlistPage from './pages/Auth/Account/Wishlist/WishlistPage'
 import AddressPage from './pages/Auth/Account/Address/AddressPage'
+import CartPage from './pages/Auth/Account/Cart/CartPage'
 
 function App() {
 
@@ -31,7 +32,6 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Route>
-
         <Route path="/" element={
           <AppLayout />
         }>
@@ -50,9 +50,9 @@ function App() {
             <Route index element={<AccountPage />} />
             <Route path="wishlist" element={<WishlistPage />} />
             <Route path="address" element={<AddressPage />} />
+            <Route path="cart" element={<CartPage />} />
           </Route>
         </Route>
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
