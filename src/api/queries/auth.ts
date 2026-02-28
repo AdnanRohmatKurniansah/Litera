@@ -35,8 +35,8 @@ export function useGoogleLogin() {
   const { login } = useAuth()
 
   return useMutation({
-    mutationFn: async (id_token: string) => {
-      const { data } = await apiClient.post(API_ENDPOINTS.AUTH.USER_GOOGLE_LOGIN, { id_token })
+    mutationFn: async (access_token: string) => {
+      const { data } = await apiClient.post(API_ENDPOINTS.AUTH.USER_GOOGLE_LOGIN, { access_token })
       return data
     },
     onSuccess: async (res) => {
