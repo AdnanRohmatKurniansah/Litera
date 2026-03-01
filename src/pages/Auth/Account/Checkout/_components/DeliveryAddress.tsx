@@ -1,8 +1,9 @@
-import { Badge, ChevronRight, MapPin, Star } from "lucide-react"
+import { ChevronRight, MapPin, Star } from "lucide-react"
 import type { Address } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
 import { SectionCard, SectionHeader } from "./CheckoutCard"
+import { Badge } from "@/components/ui/badge"
 
 const DeliveryAddress = ({
   addresses,
