@@ -22,12 +22,13 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { useMyOrders, useCancelOrder } from '@/api/queries/order'
+import { useMyOrders, useCancelOrder, useArrivedOrder } from '@/api/queries/order'
 import { loadMidtransScript } from '@/lib/midtrans'
 import type { Order } from '@/types'
 import { OrderCard, OrderSkeleton } from './_components/OrderCard'
 import NavigationSide from '../_components/NavSide'
 import PaginationData from '@/components/common/Pagination'
+import { AxiosError } from 'axios'
 
 const FILTER_TABS: { label: string; value: Order['status'] | 'All' }[] = [
   { label: 'All', value: 'All' },
@@ -43,11 +44,13 @@ const TransactionsPage = () => {
   PageMetadata({ title: 'My Transactions | Litera' })
 
   const [activeFilter, setActiveFilter] = useState<Order['status'] | 'All'>('All')
+  const [arrivedOrderId, setArrivedOrderId] = useState<string | null>(null)
   const [cancelOrderId, setCancelOrderId] = useState<string | null>(null)
   const [page, setPage] = useState(1)
 
   const { data, isLoading } = useMyOrders(page, 10)
   const cancelMutation = useCancelOrder()
+  const arrivedMutation = useArrivedOrder()
 
   const orders = data?.data ?? []
   const total = data?.total ?? 0
@@ -77,14 +80,36 @@ const TransactionsPage = () => {
 
   const handleCancel = async () => {
     if (!cancelOrderId) return
-    try {
-      await cancelMutation.mutateAsync(cancelOrderId)
-      toast.success('Order cancelled successfully')
-    } catch {
-      toast.error('Failed to cancel order')
-    } finally {
-      setCancelOrderId(null)
-    }
+    await cancelMutation.mutateAsync(cancelOrderId, {
+      onSuccess: (res) => {
+        toast.success(res.message)
+        setCancelOrderId(null)
+      },
+      onError: (error) => {            
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data?.message)
+        } else {
+          toast.error("Something went wrong")
+        }
+      },
+    })
+  }
+
+  const handleArrived = async () => {
+    if (!arrivedOrderId) return
+    await arrivedMutation.mutateAsync(arrivedOrderId, {
+      onSuccess: (res) => {
+        toast.success(res.message)
+        setArrivedOrderId(null)
+      },
+      onError: (error) => {            
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data?.message)
+        } else {
+          toast.error("Something went wrong")
+        }
+      },
+    })
   }
 
   return (
@@ -175,6 +200,7 @@ const TransactionsPage = () => {
                         order={order}
                         onPay={handlePay}
                         onCancel={(id) => setCancelOrderId(id)}
+                        onArrived={(id) => setArrivedOrderId(id)}
                       />
                     ))
                   )}
@@ -193,6 +219,7 @@ const TransactionsPage = () => {
           </div>
         </div>
       </div>
+
       <AlertDialog open={!!cancelOrderId} onOpenChange={(open) => !open && setCancelOrderId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -209,6 +236,26 @@ const TransactionsPage = () => {
               className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
               disabled={cancelMutation.isPending}>
               {cancelMutation.isPending ? 'Cancelling...' : 'Yes, Cancel Order'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={!!arrivedOrderId} onOpenChange={(open) => !open && setArrivedOrderId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Mark this order as arrived?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Please confirm that you have received this order. This action will update the order status to "Arrived".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Not Yet</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleArrived}
+              className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+              disabled={arrivedMutation.isPending}>
+              {arrivedMutation.isPending ? 'Processing...' : 'Yes, Order Arrived'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

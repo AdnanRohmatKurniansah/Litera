@@ -40,17 +40,20 @@ const STATUS_CONFIG = {
 const OrderCard = ({
   order,
   onPay,
-  onCancel
+  onCancel,
+  onArrived
 }: {
   order: Order
   onPay: (token: string) => void
   onCancel: (orderId: string) => void
+  onArrived: (orderId: string) => void
 }) => {
   const [expanded, setExpanded] = useState(false)
   const status = STATUS_CONFIG[order.status]
 
   const canPay = order.status === 'Pending' && order.payment?.token
   const canCancel = order.status === 'Pending' || order.status === 'Paid'
+  const canArrived = order.status === 'Processing' && order.receipt_number
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -101,7 +104,6 @@ const OrderCard = ({
           </div>
         </div>
       </div>
-
       {expanded && (
         <div className="px-5 pb-4 space-y-4 border-t border-gray-50 pt-4">
           <div className="space-y-2">
@@ -190,6 +192,12 @@ const OrderCard = ({
               Pay Now
             </Button>
           )}
+          {canArrived && (
+            <Button size="sm" onClick={() => onArrived(order.id)} className="text-xs bg-green-600 hover:bg-green-700 text-white">
+              <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+              Order Arrived
+            </Button>
+          )}
         </div>
       </div>
     </div>
@@ -206,11 +214,7 @@ const OrderSkeleton = () => (
       <div className="h-6 w-24 rounded-full" />
     </div>
     <div className="px-5 py-4 flex gap-3">
-      <div className="flex -space-x-3">
-        {[1, 2].map((i) => (
-          <div key={i} className="w-12 bg-gray-200 h-16 rounded-md border-2 border-white" />
-        ))}
-      </div>
+      <div className="w-12 bg-gray-200 h-16 rounded-md border-2 border-white" />
       <div className="space-y-2 flex-1">
         <div className="h-4 bg-gray-200 w-48" />
         <div className="h-3 bg-gray-200 w-20" />

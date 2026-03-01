@@ -52,8 +52,9 @@ export function useArrivedOrder() {
       const { data } = await apiClient.patch(API_ENDPOINTS.ORDERS.ARRIVED(orderId))
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['my-orders'] })
+      return res
     },
   })
 }
@@ -65,8 +66,9 @@ export function useCancelOrder() {
       const { data } = await apiClient.patch(API_ENDPOINTS.ORDERS.CANCEL(orderId))
       return data
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['my-orders'] })
+      return res
     },
   })
 }
