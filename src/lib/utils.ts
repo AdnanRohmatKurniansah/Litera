@@ -14,9 +14,7 @@ export const formatDate = (
   try {
     const dateObj = typeof date === 'string' ? new Date(date) : date
 
-    if (isNaN(dateObj.getTime())) {
-      return '-'
-    }
+    if (isNaN(dateObj.getTime())) return '-'
 
     switch (format) {
       case 'short':
@@ -48,6 +46,8 @@ export const formatDate = (
           day: '2-digit',
           month: 'long',
           year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
         })
 
       default:

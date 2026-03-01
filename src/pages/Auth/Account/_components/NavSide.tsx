@@ -11,8 +11,8 @@ const menu = [
     url: '/account',
   },
   {
-    label: 'Transactions',
-    url: '/account/transactions',
+    label: 'Transaction',
+    url: '/account/transaction',
   },
   {
     label: 'Address',

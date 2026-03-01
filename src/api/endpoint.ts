@@ -56,8 +56,9 @@ export const API_ENDPOINTS = {
     CALLBACK: '/order/callback',
     SHIPPING_COST: '/order/cost',
     CHECKOUT: '/order/checkout',
+    MY_LIST: '/order/my-orders',                          
     ARRIVED: (orderId: string) => `/order/arrived/${orderId}`,
-    LIST: '/order',
+    CANCEL: (orderId: string) => `/order/cancel/${orderId}`, 
     DETAIL: (orderId: string) => `/order/detail/${orderId}`,
   },
 

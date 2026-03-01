@@ -121,26 +121,3 @@ export function useDistricts(cityId?: string) {
     staleTime: Infinity,
   })
 }
-
-export interface ShippingCostPayload {
-  origin:      string // city_id of your store/warehouse
-  destination: string // city_id of customer
-  weight:      number // in grams
-  courier:     string // jne | pos | tiki | jnt | sicepat | ninja
-}
-
-export interface ShippingService {
-  service:     string
-  description: string
-  cost:        number
-  etd:         string
-}
-
-export function useShippingCost() {
-  return useMutation({
-    mutationFn: async (payload: ShippingCostPayload): Promise<ShippingService[]> => {
-      const { data } = await apiClient.post(API_ENDPOINTS.ADDRESSES.SHIPPING_COST, payload)
-      return data.data // array of available services
-    },
-  })
-}

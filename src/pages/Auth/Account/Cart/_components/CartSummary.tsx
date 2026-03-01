@@ -44,7 +44,7 @@ const CartSummary = ({
 
     const selectedItems = items.filter((i) => selectedIds.has(i.id))
 
-    navigate("/checkout", {
+    navigate("/account/checkout", {
       state: { items: selectedItems }
     })
   }

@@ -162,11 +162,16 @@ const CartPage = () => {
             <h1 className="text-2xl font-bold mb-8">My Cart</h1>
             {!isLoading && items.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <img className="mx-auto" width={160} height={160} src="/images/wishlist-empty.png" alt="empty data" />
+                <img className="mx-auto" width={160} height={160} src="/images/cart-empty.png" alt="empty data" />
                 <h5 className="text-lg font-semibold mb-1">Your cart is empty</h5>
-                <p className="text-sm text-muted-foreground max-w-sm mb-6">
+                <p className="text-sm text-muted-foreground max-w-sm">
                   Let's start shopping and add your favorite books to your basket.
                 </p>
+                <div className="mt-6">
+                  <Link to="/books" className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-white hover:opacity-90 transition">
+                    Explore Books
+                  </Link>
+                </div>
               </div>
             ): (
               <div className="flex flex-col lg:flex-row gap-6 items-start">

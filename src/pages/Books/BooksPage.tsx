@@ -12,7 +12,7 @@ import { useNavigate, useSearchParams } from "react-router"
 import FilterBook from "./FilterBook"
 
 const Books = () => {
-  PageMetadata({ title: "Books | Litera" })
+  PageMetadata({ title: "Book's List | Litera" })
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -69,7 +69,7 @@ const Books = () => {
           </Breadcrumb>
 
           <div className="main grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-1 rounded-xl border p-4 h-fit sticky top-24">
+            <div className="md:col-span-1 rounded-xl border p-4 h-fit block md:sticky top-24">
               <h2 className="font-semibold text-lg pb-4 border-b mb-2">Filters</h2>
               <FilterBook
                 categories={categories}

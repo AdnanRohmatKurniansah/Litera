@@ -21,6 +21,8 @@ import AccountPage from './pages/Auth/Account/AccountPage'
 import WishlistPage from './pages/Auth/Account/Wishlist/WishlistPage'
 import AddressPage from './pages/Auth/Account/Address/AddressPage'
 import CartPage from './pages/Auth/Account/Cart/CartPage'
+import CheckoutPage from './pages/Auth/Account/Checkout/CheckoutPage'
+import TransactionsPage from './pages/Auth/Account/Transaction/TransactionPage'
 
 function App() {
 
@@ -51,6 +53,8 @@ function App() {
             <Route path="wishlist" element={<WishlistPage />} />
             <Route path="address" element={<AddressPage />} />
             <Route path="cart" element={<CartPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="transaction" element={<TransactionsPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

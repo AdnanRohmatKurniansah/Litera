@@ -121,3 +121,74 @@ export type Address = {
   created_at: string
   updated_at: string
 }
+
+export type CartItem = {
+  id: string
+  bookId: string
+  qty: number
+  book: Book
+}
+
+export type ShippingService = {
+  service: string
+  description: string
+  cost: number
+  etd: string
+}
+
+export type OrderItem = {
+  id: string
+  bookId: string
+  qty: number
+  price: number
+  book: {
+    id: string
+    name: string
+    slug: string
+    image_url: string
+    author: string
+  }
+}
+
+export type OrderShipping = {
+  id: string
+  courier: string
+  service: string
+  description: string
+  cost: number
+  etd: string
+}
+
+export type OrderPayment = {
+  id: string
+  method: string | null
+  status: 'Pending' | 'Paid' | 'Failed'
+  token: string
+  paid_at: string | null
+}
+
+export type OrderAddress = {
+  id: string
+  name: string
+  phone: string
+  province: string
+  city: string
+  district: string
+  street: string
+  zip: string
+}
+
+export type Order = {
+  id: string
+  receipt_number: string | null
+  userId: string
+  addressId: string | null
+  status: 'Pending' | 'Paid' | 'Processing' | 'Completed' | 'Cancelled' | 'Failed'
+  total: number
+  note: string | null
+  created_at: string
+  items: OrderItem[]
+  payment: OrderPayment | null
+  shipping: OrderShipping | null
+  address: OrderAddress | null
+}
