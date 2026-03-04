@@ -7,7 +7,17 @@ import {
   Breadcrumb, BreadcrumbItem, BreadcrumbLink,
   BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import type { Book, Category } from "@/types"
+import { SlidersHorizontal } from "lucide-react"
+import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 import FilterBook from "./FilterBook"
 
@@ -16,6 +26,7 @@ const Books = () => {
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
 
   const page      = Number(searchParams.get("page") || 1)
   const keyword   = searchParams.get("search") || undefined
@@ -24,7 +35,7 @@ const Books = () => {
   const minPrice  = Number(searchParams.get("minPrice") || 0)
   const sortBy    = searchParams.get("sortBy") || "newest"
 
-  const { data: categoryData } = useCategories({ limit: 50 })
+  const { data: categoryData, isLoading: isLoadingCategories } = useCategories({ limit: 50 })
   const categories: Category[] = categoryData?.data ?? []
 
   const { data, isLoading } = useBooksFilter({
@@ -48,9 +59,30 @@ const Books = () => {
     } else {
       params.delete(key)
     }
-    params.delete("page") 
+    params.delete("page")
     navigate(`/books?${params.toString()}`)
   }
+
+  const filterProps = {
+    categories,
+    selectedCategory: category,
+    setSelectedCategory: (val: string) => updateParam("category", val),
+    selectedLanguage: language,
+    setSelectedLanguage: (val: string) => updateParam("language", val),
+    priceRange: [minPrice],
+    setPriceRange: (val: number[]) => updateParam("minPrice", String(val[0])),
+    sortBy,
+    setSortBy: (val: string) => updateParam("sortBy", val),
+    isLoadingCategories,
+  }
+
+  // Count active filters (excluding defaults)
+  const activeFilterCount = [
+    category !== "all" ? 1 : 0,
+    language !== "all" ? 1 : 0,
+    minPrice > 0 ? 1 : 0,
+    sortBy !== "newest" ? 1 : 0,
+  ].reduce((a, b) => a + b, 0)
 
   return (
     <section className="articles">
@@ -68,20 +100,39 @@ const Books = () => {
             </BreadcrumbList>
           </Breadcrumb>
 
+          <div className="flex items-center justify-between mb-4 md:hidden">
+            <p className="text-sm text-muted-foreground">
+              {isLoading ? (
+                <span className="inline-block animate-pulse h-4 w-24 bg-gray-200 rounded" />
+              ) : (
+                `${total} books found`
+              )}
+            </p>
+            <Sheet open={mobileFilterOpen} onOpenChange={setMobileFilterOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  Filters
+                  {activeFilterCount > 0 && (
+                    <span className="ml-1 inline-flex items-center justify-center w-4 h-4 text-[10px] font-semibold rounded-full bg-primary text-primary-foreground">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[340px] overflow-y-auto">
+                <SheetHeader className="pb-4 border-b mb-2">
+                  <SheetTitle>Filters</SheetTitle>
+                </SheetHeader>
+                <FilterBook {...filterProps} />
+              </SheetContent>
+            </Sheet>
+          </div>
+
           <div className="main grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-1 rounded-xl border p-4 h-fit block md:sticky top-24">
+            <div className="md:col-span-1 rounded-xl border p-4 h-fit hidden md:block md:sticky top-24">
               <h2 className="font-semibold text-lg pb-4 border-b mb-2">Filters</h2>
-              <FilterBook
-                categories={categories}
-                selectedCategory={category}
-                setSelectedCategory={(val) => updateParam("category", val)}
-                selectedLanguage={language}
-                setSelectedLanguage={(val) => updateParam("language", val)}
-                priceRange={[minPrice]}
-                setPriceRange={(val) => updateParam("minPrice", String(val[0]))}
-                sortBy={sortBy}
-                setSortBy={(val) => updateParam("sortBy", val)}
-              />
+              <FilterBook {...filterProps} />
             </div>
 
             <div className="book-list md:col-span-3">

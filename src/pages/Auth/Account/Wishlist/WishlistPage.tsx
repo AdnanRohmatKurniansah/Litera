@@ -6,6 +6,9 @@ import { BookCard, BookCardSkeleton } from "@/components/common/BookCard"
 import type { Book } from "@/types"
 import { useWishlist } from "@/api/queries/wishlist"
 import { Link } from "react-router"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
+import { Menu } from "lucide-react"
 
 const WishlistPage = () => {
   PageMetadata({ title: "My Wishlist | Litera" })
@@ -32,9 +35,24 @@ const WishlistPage = () => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-
+          <div className="flex items-center gap-3 mb-4 md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="text-[12px] flex items-center gap-2">
+                  <Menu className="w-3 h-3" />
+                  Navigation
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[280px] sm:w-[320px] overflow-y-auto">
+                <SheetHeader className="pb-4 border-b mt-3">
+                  <SheetTitle>Navigation</SheetTitle>
+                </SheetHeader>
+                <NavigationSide />
+              </SheetContent>
+            </Sheet>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="nav-side relative md:sticky md:top-28 h-fit col-span-4 md:col-span-1">
+            <div className="nav-side relative md:sticky md:top-28 h-fit col-span-4 md:col-span-1 hidden md:block">
               <NavigationSide />
             </div>
             <div className="wishlist col-span-4 md:col-span-3 mb-8">
@@ -50,7 +68,7 @@ const WishlistPage = () => {
                             Array.from({ length: 8 }).map((_, i) => <BookCardSkeleton key={i} />)
                             ) : books.length === 0 ? (
                             <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
-                              <img className="mx-auto" width={160} height={160} src="/images/wishlist-empty.png" alt="empty data" />
+                              <img className="mx-auto  w-[100px] md:w-[160px] h-[100px] md:h-[160px]" src="/images/wishlist-empty.png" alt="empty data" />
                               <h5 className="text-lg font-semibold text-gray-800 dark:text-white">
                                 Your wishlist is empty
                               </h5>

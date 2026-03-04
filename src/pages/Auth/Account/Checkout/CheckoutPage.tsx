@@ -119,24 +119,24 @@ const CheckoutPage = () => {
         snap.pay(result.snapToken, {
           onSuccess: () => {
             toast.success('Payment successful!')
-            navigate('/account/transactions')
+            window.location.href = '/account/transaction'
           },
           onPending: () => {
             toast.info('Payment pending, please complete your payment.')
-            navigate('/account/transactions')
+            navigate('/account/transaction')
           },
           onError: (err: unknown) => {
             console.error('Midtrans payment error:', err)
             toast.error('Payment failed. Please try again.')
           },
           onClose: () => {
-            toast.info('Payment window closed. You can pay later in My Transactions.')
-            navigate('/account/transactions')
+            toast.info('Payment window closed. You can pay later in My Transaction.')
+            navigate('/account/transaction')
           },
         })
       } else {
         window.open(result.redirectUrl, '_blank')
-        navigate('/account/transactions')
+        navigate('/account/transaction')
       }
     } catch (error) {
       toast.error(
@@ -165,7 +165,7 @@ const CheckoutPage = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-2xl font-bold mb-6">Checkout</h1>
+        <h1 className="text-lg md:text-2xl font-bold mb-3 md:mb-6">Checkout</h1>
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           <div className="flex-1 w-full space-y-4">
             <DeliveryAddress

@@ -78,38 +78,44 @@ const AddressForm = ({ defaultValues, onSubmit, isPending, onCancel }: AddressFo
           <Input {...register("phone")} placeholder="+62..." />
           {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone.message}</p>}
         </div>
-        <SelectField
-          label="Province"
-          value={provinceId}
-          placeholder={loadingProvinces ? "Loading..." : "Select Province"}
-          options={provinces.map((p) => ({ id: String(p.id), name: p.name }))}
-          onChange={handleProvinceChange}
-          error={errors.province?.message}
-        />
-        <input type="hidden" {...register("province")} />
-        <input type="hidden" {...register("province_id")} />
-        <SelectField
-          label="City / Regency"
-          value={cityId}
-          placeholder={!provinceId ? "Select province first" : loadingCities ? "Loading..." : "Select City"}
-          options={cities.map((c) => ({ id: String(c.id), name: c.name }))}
-          onChange={handleCityChange}
-          disabled={!provinceId}
-          error={errors.city?.message}
-        />
-        <input type="hidden" {...register("city")} />
-        <input type="hidden" {...register("city_id")} />
-        <SelectField
-          label="District"
-          value={districtId}
-          placeholder={!cityId ? "Select city first" : loadingDistricts ? "Loading..." : "Select District"}
-          options={districts.map((d) => ({ id: String(d.id), name: d.name }))}
-          onChange={handleDistrictChange}
-          disabled={!cityId}
-          error={errors.district?.message}
-        />
-        <input type="hidden" {...register("district")} />
-        <input type="hidden" {...register("district_id")} />
+        <div className="col-span-2 md:col-span-1">
+          <SelectField
+            label="Province"
+            value={provinceId}
+            placeholder={loadingProvinces ? "Loading..." : "Select Province"}
+            options={provinces.map((p) => ({ id: String(p.id), name: p.name }))}
+            onChange={handleProvinceChange}
+            error={errors.province?.message}
+          />
+          <input type="hidden" {...register("province")} />
+          <input type="hidden" {...register("province_id")} />
+        </div>
+        <div className="col-span-2 md:col-span-1">
+          <SelectField
+            label="City / Regency"
+            value={cityId}
+            placeholder={!provinceId ? "Select province first" : loadingCities ? "Loading..." : "Select City"}
+            options={cities.map((c) => ({ id: String(c.id), name: c.name }))}
+            onChange={handleCityChange}
+            disabled={!provinceId}
+            error={errors.city?.message}
+          />
+          <input type="hidden" {...register("city")} />
+          <input type="hidden" {...register("city_id")} />
+        </div>
+        <div className="col-span-2 md:col-span-1">
+          <SelectField
+            label="District"
+            value={districtId}
+            placeholder={!cityId ? "Select city first" : loadingDistricts ? "Loading..." : "Select District"}
+            options={districts.map((d) => ({ id: String(d.id), name: d.name }))}
+            onChange={handleDistrictChange}
+            disabled={!cityId}
+            error={errors.district?.message}
+          />
+          <input type="hidden" {...register("district")} />
+          <input type="hidden" {...register("district_id")} />
+        </div>
         <div>
           <Label className="mb-2 block">ZIP Code</Label>
           <Input {...register("zip")} placeholder="e.g. 12110" />

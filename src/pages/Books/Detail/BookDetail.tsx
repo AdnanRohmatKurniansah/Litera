@@ -12,7 +12,7 @@ import { Navigate, useNavigate, useParams } from "react-router"
 import { toast } from "sonner"
 import BookGallery from "./_components/BookGallery"
 import { BookDetailSkeleton } from "./_components/BookDetailSkeleton"
-import { formatDate } from "@/lib/utils"
+import { formatDate, stripHtml } from "@/lib/utils"
 import OtherBook from "./OtherBook"
 import { useAuth } from "@/context/UserContext"
 import { useAddCart, useCart, useDeleteCart } from "@/api/queries/cart"
@@ -122,12 +122,12 @@ const BookDetail = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{book.name}</BreadcrumbPage>
+                <BreadcrumbPage>{book.name ? stripHtml(book.name).slice(0, 30) + "..." : "-"}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div className="md:col-span-1">
               <BookGallery book={book} />
             </div>
@@ -159,7 +159,7 @@ const BookDetail = () => {
               </div>
               <div className="actions flex gap-3 flex-wrap">
                 <Button disabled={book.qty === 0 || isCartProcessing} onClick={toggleCart}
-                  className="flex-1 md:flex-none">
+                  className="flex-none">
                   <ShoppingCart className="w-4 h-4 mr-2" />
                   {book.qty === 0
                     ? "Out of Stock"

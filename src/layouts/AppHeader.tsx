@@ -252,8 +252,14 @@ const Header = ({
               </Link>
 
               <div className="left flex gap-10">
-                <Link to={"/account/cart"} className="flex justify-end items-center ps-3 gap-2 shrink-0">
+                <Link to={"/account/cart"} className="relative flex justify-end items-center ps-3 gap-2 shrink-0">
                   <ShoppingCart className="text-gray-600 w-5 font-normal" />
+
+                  {cartCount > 0 && (
+                    <span className="absolute top-0 -right-3 bg-primary text-white text-[8px] font-semibold px-1.5 py-0.5 rounded-full min-w-[14px] text-center">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
                 <Sheet>
                   <SheetTrigger asChild>
@@ -290,7 +296,21 @@ const Header = ({
                       {!isInitialized ? (
                         <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
                       ) : isAuthenticated && user ? (
-                        <UserDropdown user={user} />
+                        <Link to={'/account'} className="flex gap-4 py-4">
+                          <div className="relative h-10 w-10 rounded-full overflow-hidden ring-2 ring-transparent hover:ring-primary/40 transition-all duration-200 shrink-0">
+                            <img  src={user.profile || "/images/auth/default-avatar.png"} alt="User Avatar" className="h-full w-full object-cover" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold truncate">
+                              {user.name}
+                            </p>
+                            {user.email && (
+                              <p className="text-xs text-muted-foreground truncate">
+                                {user.email}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
                       ) : (
                         <div className="flex flex-col gap-3">
                           <Button variant={"outline"} asChild>
@@ -342,8 +362,8 @@ const renderMenuItem = (item: MenuItem) => {
       <NavigationMenuItem key={item.title}>
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
-          <div className="flex w-[480px] max-h-[400px] overflow-y-auto p-3 gap-1">
-            <ul className="flex flex-col gap-1 flex-1">
+          <div className="flex flex-col md:flex-row w-[280px] md:w-[480px] max-h-[400px] overflow-y-auto p-3 gap-1">
+            <ul className="flex flex-col gap-1 w-full md:flex-1">
               {col1.map((subItem) => (
                 <NavigationMenuLink asChild key={subItem.title}>
                   <SubMenuLink item={subItem} />
@@ -352,11 +372,11 @@ const renderMenuItem = (item: MenuItem) => {
             </ul>
 
             {col2.length > 0 && (
-              <div className="w-px bg-border mx-1 shrink-0" />
+              <div className="hidden md:block w-px bg-border mx-1 shrink-0" />
             )}
 
             {col2.length > 0 && (
-              <ul className="flex flex-col gap-1 flex-1">
+              <ul className="flex flex-col gap-1 w-full md:flex-1">
                 {col2.map((subItem) => (
                   <NavigationMenuLink asChild key={subItem.title}>
                     <SubMenuLink item={subItem} />
@@ -390,7 +410,7 @@ const renderMobileMenuItem = (item: MenuItem, isLoading?: boolean) => {
 
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
-        <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
+        <AccordionTrigger className="text-md py-0 font-medium hover:no-underline">
           {item.title}
         </AccordionTrigger>
         <AccordionContent className="mt-2">
@@ -399,8 +419,8 @@ const renderMobileMenuItem = (item: MenuItem, isLoading?: boolean) => {
               Loading categories...
             </div>
           ) : (
-            <div className="flex gap-1 max-h-[300px] overflow-y-auto pr-1 ">
-              <ul className="flex flex-col gap-1 flex-1">
+           <div className="flex flex-col md:flex-row w-[280px] md:w-[480px] max-h-[400px] overflow-y-auto p-3 gap-1">
+              <ul className="flex flex-col gap-1 w-full md:flex-1">
                 {col1.map((subItem) => (
                   <li key={subItem.title}>
                     <SubMenuLink item={subItem} />
@@ -409,11 +429,11 @@ const renderMobileMenuItem = (item: MenuItem, isLoading?: boolean) => {
               </ul>
 
               {col2.length > 0 && (
-                <div className="w-px bg-border mx-1 shrink-0" />
+                <div className="hidden md:block w-px bg-border mx-1 shrink-0" />
               )}
 
               {col2.length > 0 && (
-                <ul className="flex flex-col gap-1 flex-1">
+                <ul className="flex flex-col gap-1 w-full md:flex-1">
                   {col2.map((subItem) => (
                     <li key={subItem.title}>
                       <SubMenuLink item={subItem} />
@@ -429,7 +449,7 @@ const renderMobileMenuItem = (item: MenuItem, isLoading?: boolean) => {
   }
 
   return (
-    <Link key={item.title} to={item.url} className="text-md font-semibold group">
+    <Link key={item.title} to={item.url} className="text-md font-medium group">
       {item.title}
     </Link>
   )

@@ -22,6 +22,10 @@ const menu = [
     label: 'Wishlist',
     url: '/account/wishlist',
   },
+  {
+    label: 'Review',
+    url: '/account/review',
+  },
 ]
 
 const NavigationSide = () => {
@@ -38,7 +42,7 @@ const NavigationSide = () => {
   }
 
   return (
-    <div className="border rounded-md p-4 mb-10 md:mb-4">
+    <div className="border-0 md:border-1 rounded-md p-4 mb-5 md:mb-4">
       {!isInitialized ? (
         <div className="flex items-center gap-3 pb-4 border-b mb-6 animate-pulse">
           <div className="w-12 h-12 rounded-full shrink-0 bg-gray-200" />
@@ -52,10 +56,10 @@ const NavigationSide = () => {
           <img
             src={user?.profile || "/images/auth/default-avatar.png"}
             alt={user?.name}
-            className="w-12 h-12 rounded-full object-cover shrink-0"
+            className="w-9 md:w-12 h-9 md:h-12 rounded-full object-cover shrink-0"
           />
           <div className="min-w-0">
-            <p className="font-semibold text-sm truncate">{user?.name}</p>
+            <p className="font-semibold text-[13px] md:text-sm truncate">{user?.name}</p>
             <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
           </div>
         </div>

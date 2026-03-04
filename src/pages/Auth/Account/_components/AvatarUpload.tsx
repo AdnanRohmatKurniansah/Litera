@@ -44,7 +44,7 @@ const AvatarUpload = ({ user, updateMutation }: AvatarUploadProps) => {
         <img
           src={preview}
           alt="Avatar"
-          className="w-16 h-16 rounded-full object-cover ring-2 ring-muted"
+          className="w-12 md:w-16 h-12 md:h-16 rounded-full object-cover ring-2 ring-muted"
         />
         <input
           ref={inputRef}
@@ -55,10 +55,10 @@ const AvatarUpload = ({ user, updateMutation }: AvatarUploadProps) => {
         />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-sm truncate">{user?.name}</p>
+        <p className="font-medium text-[13px] md:text-sm truncate">{user?.name}</p>
         <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
         <div className="flex gap-2 mt-2">
-          <Button size="sm" className="text-sm" variant="secondary" type="button" onClick={handleUpload} disabled={!file || updateMutation.isPending}>
+          <Button size="sm" className="text-[10px] md:text-xs" variant="secondary" type="button" onClick={handleUpload} disabled={!file || updateMutation.isPending}>
             {updateMutation.isPending ? "Saving..." : "Change Avatar"}
           </Button>
           {file && (

@@ -70,6 +70,7 @@ export const useReviewCreate = () => {
     },
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['book-review'] })
+      queryClient.invalidateQueries({ queryKey: ['book-ratings'] })
       return res
     },
   })
@@ -83,8 +84,9 @@ export const useBooksUpdate = () => {
       return data
     },
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ['book-review'] })
       queryClient.invalidateQueries({ queryKey: ['review-detail'] })
+      queryClient.invalidateQueries({ queryKey: ['book-review'] })
+      queryClient.invalidateQueries({ queryKey: ['book-ratings'] })
       return res
     },
   })
@@ -100,6 +102,7 @@ export function useBooksDelete() {
     },
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ['book-review'] })
+      queryClient.invalidateQueries({ queryKey: ['book-ratings'] })
       return res
     },
   })

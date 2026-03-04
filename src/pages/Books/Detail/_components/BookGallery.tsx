@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useBookImages } from '@/api/queries/book-images'
@@ -13,16 +13,34 @@ interface Props {
   book: Book
 }
 
-const BookGallerySkeleton = () => (
-  <div className="mb-5 animate-pulse">
-    <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg mb-4" />
-    <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="h-[100px] md:h-[120px] bg-gray-200 rounded-md" />
-      ))}
+const BookGallerySkeleton = () => {
+  const [thumbnailCount, setThumbnailCount] = useState(3)
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth >= 768) {
+          setThumbnailCount(4) 
+        } else {
+          setThumbnailCount(3) 
+        }
+      }
+  
+      handleResize()
+      window.addEventListener("resize", handleResize)
+  
+      return () => window.removeEventListener("resize", handleResize)
+    }, [])
+  return (
+    <div className="mb-5 animate-pulse">
+      <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg mb-4" />
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+        {Array.from({ length: thumbnailCount }).map((_, i) => (
+          <div key={i} className="h-[100px] md:h-[120px] bg-gray-200 rounded-md" />
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 const BookGallery = ({ book }: Props) => {
   const { data, isLoading } = useBookImages(book.id)
@@ -48,7 +66,7 @@ const BookGallery = ({ book }: Props) => {
   }
 
   return (
-    <div className="mb-5">
+    <div className="mb-0 md:mb-5">
       <div className="relative w-full mb-4 rounded-lg overflow-hidden">
         <img src={active.image_url} alt={active.name} className="w-full h-[300px] md:h-[450px] object-cover rounded-lg"/>
         {galleryImages.length > 1 && (

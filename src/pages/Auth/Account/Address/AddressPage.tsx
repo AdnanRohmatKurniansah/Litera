@@ -16,11 +16,12 @@ import {
 import type { Address } from "@/types"
 import { toast } from "sonner"
 import { AxiosError } from "axios"
-import { Plus } from "lucide-react"
+import { Menu, Plus } from "lucide-react"
 import { useState } from "react"
 import AddressForm from "./_components/AddressForm"
 import { AddressCard, AddressSkeleton } from "./_components/AddressCard"
 import type { AddressCreateInput } from "@/lib/schema/address.schema"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 const AddressPage = () => {
   PageMetadata({ title: "My Address | Litera" })
@@ -58,16 +59,32 @@ const AddressPage = () => {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+          <div className="flex items-center gap-3 mb-4 md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="text-[12px] flex items-center gap-2">
+                  <Menu className="w-3 h-3" />
+                  Navigation
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[280px] sm:w-[320px] overflow-y-auto">
+                <SheetHeader className="pb-4 border-b mt-3">
+                  <SheetTitle>Navigation</SheetTitle>
+                </SheetHeader>
+                <NavigationSide />
+              </SheetContent>
+            </Sheet>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="nav-side relative md:sticky md:top-28 h-fit col-span-4 md:col-span-1">
+            <div className="nav-side relative md:sticky md:top-28 h-fit col-span-4 md:col-span-1 hidden md:block">
               <NavigationSide />
             </div>
             <div className="col-span-4 md:col-span-3 mb-8">
               <div className="p-5 border border-gray-200 rounded-md">
-                <div className="flex items-center justify-between mb-4">
+                <div className="block md:flex items-center justify-between mb-4">
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800 mb-1">My Address</h4>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 mb-2 md:mb-0">
                       Manage your saved addresses for faster checkout.
                     </p>
                   </div>
@@ -94,7 +111,7 @@ const AddressPage = () => {
                   <AddressSkeleton />
                 ) : addresses.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <img className="mx-auto" width={160} height={160} src="/images/address-empty.png" alt="empty data" />
+                    <img className="mx-auto w-[100px] md:w-[160px] h-[100px] md:h-[160px]" src="/images/address-empty.png" alt="empty data" />
                     <h5 className="text-base font-semibold text-gray-800 mb-1">No addresses added yet</h5>
                     <p className="text-sm text-gray-500 max-w-sm mb-4">
                       Add a shipping address to make checkout faster and easier.

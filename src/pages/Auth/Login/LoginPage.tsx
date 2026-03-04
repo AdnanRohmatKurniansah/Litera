@@ -49,14 +49,14 @@ const LoginPage = () => {
 
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10 bg-gradient-to-tl from-primary/10 to-secondary/10">
+      <div className="flex min-h-svh flex-col items-center justify-center p-3 md:p-10 bg-gradient-to-tl from-primary/10 to-secondary/10">
         <div className="w-full md:max-w-5xl">
           <div className="flex flex-col gap-6">
-            <Card className="overflow-hidden p-4">
+            <Card className="overflow-hidden p-1 md:p-4">
               <CardContent className="grid p-0 md:grid-cols-2">
                 <div className="relative p-0 md:p-8 items-center justify-center">
                   <Link to={'/'} className="flex justify-center items-center gap-2 pt-5 md:pt-0 shrink-0">
-                    <img src={'/images/logo/logo.png'} width={0} height={0} sizes="100vw" className="h-16 w-auto" alt={'logo'}/>
+                    <img src={'/images/logo/logo.png'} width={0} height={0} sizes="100vw" className="hidden md:block h-16 w-auto" alt={'logo'}/>
                   </Link>
                   <img
                     src="/images/auth/auth-img.png"
@@ -87,7 +87,7 @@ const LoginPage = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="px-6 pt-5 pb-4 md:p-8">
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col items-center text-center">
-                      <h1 className="text-2xl font-bold">Sign In</h1>
+                      <h1 className="text-[20px] md:text-2xl font-bold">Sign In</h1>
                       <p className="text-muted-foreground text-balance text-sm">
                         Sign in to your Litera account
                       </p>

@@ -94,18 +94,18 @@ const BookCard = ({ book }: { book: Book }) => {
           </div>
         </div>
         <Link to={`/books/${book.slug}`}>
-          <p className="text-[12px] font-medium text-gray-700 mt-2 flex">{book.author}</p>
-          <h4 className="font-semibold leading-4.5 text-[14px] mt-1">{book.name}</h4>
+          <p className="text-[10px] md:text-[12px] font-medium text-gray-700 mt-2 flex">{book.author}</p>
+          <h4 className="font-semibold leading-4.5 text-[12px] md:text-[14px] mt-1">{book.name}</h4>
           <div className="price font-semibold text-md mt-2">
             {book.discount_price && book.discount_price > 0 ? (
               <div className="font-semibold">
-                <h5 className='text-[14px]'>Rp. {book.discount_price?.toLocaleString()}</h5>
+                <h5 className='text-[13px] md:text-[14px]'>Rp. {book.discount_price?.toLocaleString()}</h5>
                 <h5 className="line-through text-[12px] text-red-600 me-2">
                   Rp. {book.price.toLocaleString()}
                 </h5>
               </div>
             ) : (
-              <h5 className="font-semibold text-[14px]">Rp. {book.price.toLocaleString()}</h5>
+              <h5 className="font-semibold text-[13px] md:text-[14px]">Rp. {book.price.toLocaleString()}</h5>
             )}
           </div>
         </Link>

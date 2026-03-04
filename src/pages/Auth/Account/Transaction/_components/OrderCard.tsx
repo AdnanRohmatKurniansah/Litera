@@ -3,6 +3,7 @@ import { formatDate, formatRp } from "@/lib/utils"
 import type { Order } from "@/types"
 import { CheckCircle2, ChevronDown, ChevronUp, Clock, CreditCard, MapPin, Package, Truck, XCircle } from "lucide-react"
 import { useState } from "react"
+import { Link } from "react-router"
 
 const STATUS_CONFIG = {
   Pending: {
@@ -52,7 +53,7 @@ const OrderCard = ({
   const status = STATUS_CONFIG[order.status]
 
   const canPay = order.status === 'Pending' && order.payment?.token
-  const canCancel = order.status === 'Pending' || order.status === 'Paid'
+  const canCancel = order.status === 'Pending'
   const canArrived = order.status === 'Processing' && order.receipt_number
 
   return (
@@ -109,7 +110,7 @@ const OrderCard = ({
           <div className="space-y-2">
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Items</p>
             {order.items.map((item) => (
-              <div key={item.id} className="flex items-center gap-3">
+              <Link to={`/books/${item.book.slug}`} key={item.id} className="flex items-center gap-3">
                 <img src={item.book.image_url} alt={item.book.name} className="w-10 h-14 object-cover rounded-md border" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-800 truncate">{item.book.name}</p>
@@ -119,7 +120,7 @@ const OrderCard = ({
                   <p className="text-sm font-medium">{formatRp(item.price)}</p>
                   <p className="text-xs text-muted-foreground">×{item.qty}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           {order.address && (

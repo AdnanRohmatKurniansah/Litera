@@ -49,7 +49,7 @@ export function useArrivedOrder() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (orderId: string) => {
-      const { data } = await apiClient.patch(API_ENDPOINTS.ORDERS.ARRIVED(orderId))
+      const { data } = await apiClient.put(API_ENDPOINTS.ORDERS.ARRIVED(orderId))
       return data
     },
     onSuccess: (res) => {
@@ -63,7 +63,7 @@ export function useCancelOrder() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (orderId: string) => {
-      const { data } = await apiClient.patch(API_ENDPOINTS.ORDERS.CANCEL(orderId))
+      const { data } = await apiClient.put(API_ENDPOINTS.ORDERS.CANCEL(orderId))
       return data
     },
     onSuccess: (res) => {

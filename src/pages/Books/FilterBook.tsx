@@ -32,6 +32,7 @@ type Props = {
   setPriceRange: (val: number[]) => void
   sortBy: string
   setSortBy: (val: string) => void
+  isLoadingCategories: boolean
 }
 
 const FilterBook = ({
@@ -44,12 +45,13 @@ const FilterBook = ({
   setPriceRange,
   sortBy,
   setSortBy,
+  isLoadingCategories,
 }: Props) => {
   return (
     <Accordion
       type="multiple"
       defaultValue={["sort", "category", "language", "price"]}
-      className="w-full space-y-2">
+      className="w-full space-y-2 px-4 md:px-2">
       <AccordionItem value="sort">
         <AccordionTrigger className="text-sm font-medium">Sort By</AccordionTrigger>
         <AccordionContent className="pt-2">
@@ -71,12 +73,23 @@ const FilterBook = ({
               <RadioGroupItem value="all" id="cat-all" />
               <Label htmlFor="cat-all">All</Label>
             </div>
-            {categories.map((cat) => (
-              <div key={cat.slug} className="flex items-center space-x-2">
-                <RadioGroupItem value={cat.slug} id={`cat-${cat.slug}`} />
-                <Label htmlFor={`cat-${cat.slug}`}>{cat.name}</Label>
+            {isLoadingCategories ? (
+              <div className="space-y-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="flex items-center space-x-2 animate-pulse">
+                    <div className="w-4 h-4 rounded-full bg-gray-200" />
+                    <div className="h-3 w-44 bg-gray-200 rounded" />
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              categories.map((cat) => (
+                <div key={cat.slug} className="flex items-center space-x-2">
+                  <RadioGroupItem value={cat.slug} id={`cat-${cat.slug}`} />
+                  <Label htmlFor={`cat-${cat.slug}`}>{cat.name}</Label>
+                </div>
+              ))
+            )}
           </RadioGroup>
         </AccordionContent>
       </AccordionItem>

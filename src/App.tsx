@@ -23,6 +23,7 @@ import AddressPage from './pages/Auth/Account/Address/AddressPage'
 import CartPage from './pages/Auth/Account/Cart/CartPage'
 import CheckoutPage from './pages/Auth/Account/Checkout/CheckoutPage'
 import TransactionsPage from './pages/Auth/Account/Transaction/TransactionPage'
+import MyReviewPage from './pages/Auth/Account/Review/MyReview'
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="cart" element={<CartPage />} />
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="transaction" element={<TransactionsPage />} />
+            <Route path="review" element={<MyReviewPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

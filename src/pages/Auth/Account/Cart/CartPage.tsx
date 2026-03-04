@@ -159,7 +159,7 @@ const CartPage = () => {
                 <BreadcrumbItem><BreadcrumbPage>My Cart</BreadcrumbPage></BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <h1 className="text-2xl font-bold mb-8">My Cart</h1>
+            <h1 className="text-lg md:text-2xl font-bold mb-3 md:mb-6">My Cart</h1>
             {!isLoading && items.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
                 <img className="mx-auto" width={160} height={160} src="/images/cart-empty.png" alt="empty data" />
@@ -241,7 +241,7 @@ const CartPage = () => {
                                       </span>
                                     )}
                                   </div>
-                                  <div className="flex gap-4">
+                                  <div className="hidden md:flex gap-4">
                                     <Button
                                       variant={'ghost'}
                                       size={'sm'}
@@ -275,6 +275,24 @@ const CartPage = () => {
                                     </>
                                   )}
                                 </div>
+
+                                <div className="flex md:hidden mt-3 gap-4">
+                                    <Button
+                                      variant={'ghost'}
+                                      size={'sm'}
+                                      type="button"
+                                      onClick={() => handleDelete(item.id)}
+                                      disabled={deleteCart.isPending}
+                                      className="text-gray-400 hover:text-destructive transition-colors shrink-0 p-1">
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                    <QtyControl
+                                      qty={item.qty}
+                                      onDecrease={() => handleQtyChange(item, -1)}
+                                      onIncrease={() => handleQtyChange(item, +1)}
+                                      disabled={updateCart.isPending || isOutOfStock}
+                                    />
+                                  </div>
                               </div>
                             </div>
                           )
