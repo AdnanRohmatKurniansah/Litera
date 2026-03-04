@@ -63,9 +63,9 @@ const WishlistPage = () => {
                         <p className="text-sm text-gray-600 dark:text-gray-400 pb-4">Keep track of the books you love and plan to read.</p>
                         
                         <Separator />
-                        <div className="grid grid-cols-2 pt-5 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 pt-5 md:grid-cols-5 gap-4">
                             {isLoading ? (
-                            Array.from({ length: 8 }).map((_, i) => <BookCardSkeleton key={i} />)
+                            Array.from({ length: 10 }).map((_, i) => <BookCardSkeleton key={i} />)
                             ) : books.length === 0 ? (
                             <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
                               <img className="mx-auto  w-[100px] md:w-[160px] h-[100px] md:h-[160px]" src="/images/wishlist-empty.png" alt="empty data" />

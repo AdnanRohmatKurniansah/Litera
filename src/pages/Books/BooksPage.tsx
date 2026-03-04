@@ -45,7 +45,7 @@ const Books = () => {
     minPrice: minPrice > 0 ? minPrice : undefined,
     sortBy,
     page,
-    limit: 24,
+    limit: 25,
   })
 
   const books: Book[] = data?.data.data ?? []
@@ -76,7 +76,6 @@ const Books = () => {
     isLoadingCategories,
   }
 
-  // Count active filters (excluding defaults)
   const activeFilterCount = [
     category !== "all" ? 1 : 0,
     language !== "all" ? 1 : 0,
@@ -136,7 +135,7 @@ const Books = () => {
             </div>
 
             <div className="book-list md:col-span-3">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {isLoading ? (
                   Array.from({ length: 8 }).map((_, i) => <BookCardSkeleton key={i} />)
                 ) : books.length === 0 ? (

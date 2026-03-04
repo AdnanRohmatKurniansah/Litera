@@ -35,13 +35,13 @@ const NewestBook = () => {
           <Carousel opts={{ align: "start" }}className="w-full">
             <CarouselContent className='ps-2 py-2'>
               {isLoading
-              ? Array.from({ length: 6 }).map((_, i) => (
-                  <CarouselItem key={i} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 px-1 md:px-2">
+              ? Array.from({ length: 7 }).map((_, i) => (
+                  <CarouselItem key={i} className="basis-1/2 sm:basis-1/3 md:basis-1/5 lg:basis-1/7 px-1 md:px-2">
                     <BookCardSkeleton />
                   </CarouselItem>
                 ))
               : books.map((book: Book, i: number) => (
-                <CarouselItem key={i} className="group basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 px-1 md:px-2">
+                <CarouselItem key={i} className="group basis-1/2 sm:basis-1/3 md:basis-1/5 lg:basis-1/7 px-1 md:px-2">
                   <BookCard book={book} />
                 </CarouselItem>
               ))}

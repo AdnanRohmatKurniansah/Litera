@@ -32,7 +32,7 @@ const OrderItemsSection = ({ items }: { items: CartItem[] }) => {
               <img
                 src={item.book.image_url}
                 alt={item.book.name}
-                className="w-14 h-18 object-cover rounded-md border shrink-0"
+                className="w-14 h-18 object-contain shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-muted-foreground">{item.book.author}</p>

@@ -30,12 +30,14 @@ export const BookDetailSkeleton = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-1">
-            <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg mb-4" />
+              <div className="relative w-full aspect-[4/4] rounded-md overflow-hidden mb-4">
+              <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg" />
+            </div>
             <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
               {Array.from({ length: thumbnailCount }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-[100px] md:h-[120px] bg-gray-200 rounded-md"
+                  className="h-[90px] md:h-[100px] bg-gray-200 rounded-md"
                 />
               ))}
             </div>

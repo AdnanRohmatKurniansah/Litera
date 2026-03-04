@@ -3,7 +3,7 @@ const CartSkeleton = () => (
     {Array.from({ length: 3 }).map((_, i) => (
       <div key={i} className="border rounded-lg p-4 flex gap-4 animate-pulse">
         <div className="w-5 h-5 bg-gray-200 rounded mt-1 shrink-0" />
-        <div className="w-20 h-24 bg-gray-200 rounded-md shrink-0" />
+        <div className="w-16 h-20 object-contain bg-gray-200 shrink-0" />
         <div className="flex-1 space-y-2">
           <div className="h-4 bg-gray-200 w-1/2" />
           <div className="h-3 bg-gray-200 w-1/4" />

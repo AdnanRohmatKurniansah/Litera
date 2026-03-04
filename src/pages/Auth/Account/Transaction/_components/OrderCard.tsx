@@ -78,7 +78,7 @@ const OrderCard = ({
         <div className="flex gap-3">
           <div className="flex -space-x-3">
             {order.items.slice(0, 3).map((item) => (
-              <img key={item.id} src={item.book.image_url} alt={item.book.name} className="w-12 h-16 object-cover rounded-md border-2 border-white shadow-sm"/>
+              <img key={item.id} src={item.book.image_url} alt={item.book.name} className="w-12 h-16 object-contain"/>
             ))}
             {order.items.length > 3 && (
               <div className="w-12 h-16 rounded-md border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-500 shadow-sm">
@@ -111,7 +111,7 @@ const OrderCard = ({
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Items</p>
             {order.items.map((item) => (
               <Link to={`/books/${item.book.slug}`} key={item.id} className="flex items-center gap-3">
-                <img src={item.book.image_url} alt={item.book.name} className="w-10 h-14 object-cover rounded-md border" />
+                <img src={item.book.image_url} alt={item.book.name} className="w-10 h-14 object-contain shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-800 truncate">{item.book.name}</p>
                   <p className="text-xs text-muted-foreground">{item.book.author}</p>
@@ -215,7 +215,7 @@ const OrderSkeleton = () => (
       <div className="h-6 w-24 rounded-full" />
     </div>
     <div className="px-5 py-4 flex gap-3">
-      <div className="w-12 bg-gray-200 h-16 rounded-md border-2 border-white" />
+      <div className="w-12 bg-gray-200 h-16" />
       <div className="space-y-2 flex-1">
         <div className="h-4 bg-gray-200 w-48" />
         <div className="h-3 bg-gray-200 w-20" />

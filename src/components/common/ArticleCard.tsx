@@ -25,7 +25,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
           </Link>
         </div>
         <Link className='p-4' to={`/articles/${article.slug}`}>
-          <h4 className="font-semibold leading-5 text-[17px] mt-1 mb-3">{article.title}</h4>
+          <h4 className="font-semibold leading-5 text-[16px] mt-1 mb-3">{article.title}</h4>
           <p className="text-[14px] leading-5 font-medium text-gray-700 mt-2 flex mb-4">
             {article.content ? stripHtml(article.content).slice(0, 80) + "..." : "-"}
           </p>

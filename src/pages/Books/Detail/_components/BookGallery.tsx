@@ -32,10 +32,12 @@ const BookGallerySkeleton = () => {
     }, [])
   return (
     <div className="mb-5 animate-pulse">
-      <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg mb-4" />
+      <div className="relative w-full aspect-[4/4] rounded-md overflow-hidden mb-4">
+        <div className="w-full h-[300px] md:h-[450px] bg-gray-200 rounded-lg" />
+      </div>
       <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
         {Array.from({ length: thumbnailCount }).map((_, i) => (
-          <div key={i} className="h-[100px] md:h-[120px] bg-gray-200 rounded-md" />
+          <div key={i} className="h-[90px] md:h-[100px] bg-gray-200 rounded-md" />
         ))}
       </div>
     </div>
@@ -68,7 +70,9 @@ const BookGallery = ({ book }: Props) => {
   return (
     <div className="mb-0 md:mb-5">
       <div className="relative w-full mb-4 rounded-lg overflow-hidden">
-        <img src={active.image_url} alt={active.name} className="w-full h-[300px] md:h-[450px] object-cover rounded-lg"/>
+        <div className="relative w-full aspect-[4/4] rounded-md overflow-hidden">
+          <img src={active.image_url} alt={active.name} className="object-contain w-full h-full rounded-lg"/>
+        </div>
         {galleryImages.length > 1 && (
           <>
             <Button onClick={handlePrev} className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow">
@@ -87,7 +91,7 @@ const BookGallery = ({ book }: Props) => {
             className={`rounded-md cursor-pointer border overflow-hidden transition-colors ${
               i === currentImage ? 'border-gray-400' : 'border-transparent hover:border-gray-300'
             }`}>
-            <img src={img.image_url} alt={img.name} className="object-cover h-[100px] md:h-[120px] w-full" />
+            <img src={img.image_url} alt={img.name} className="object-contain h-[90px] md:h-[100px] w-full" />
           </div>
         ))}
       </div>

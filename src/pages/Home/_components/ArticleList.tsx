@@ -35,13 +35,13 @@ const ArticleList = () => {
           <Carousel opts={{ align: "start" }}className="w-full">
             <CarouselContent className='ps-2 py-2'>
               {isLoading
-              ? Array.from({ length: 3 }).map((_, i) => (
-                <CarouselItem key={i} className="basis-1/1 sm:basis-1/3 md:basis-1/3 lg:basis-1/3 px-2">
+              ? Array.from({ length: 4 }).map((_, i) => (
+                <CarouselItem key={i} className="basis-1/1 sm:basis-1/3 md:basis-1/4 lg:basis-1/4 px-2">
                   <ArticleCardSkeleton />
                 </CarouselItem>
                 ))
               : articles.map((article: Article, i: number) => (
-                <CarouselItem key={i} className="group basis-1/1 sm:basis-1/3 md:basis-1/3 lg:basis-1/3 px-1 md:px-2">
+                <CarouselItem key={i} className="group basis-1/1 sm:basis-1/3 md:basis-1/4 lg:basis-1/4 px-1 md:px-2">
                   <ArticleCard article={article} />
                 </CarouselItem>
               ))}

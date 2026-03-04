@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router'
 import { useAddWishlist, useDeleteWishlist, useWishlist } from '@/api/queries/wishlist'
 import { AxiosError } from 'axios'
 import { useAuth } from '@/context/UserContext'
+import { stripHtml } from '@/lib/utils'
 
 const BookCardSkeleton = () => (
   <Card className="overflow-hidden h-full gap-0 p-3 animate-pulse">
@@ -83,7 +84,7 @@ const BookCard = ({ book }: { book: Book }) => {
       <Card className="overflow-hidden h-full gap-0 p-3 hover:shadow-md transition-shadow">
         <div className="relative w-full aspect-[4/4] rounded-md overflow-hidden">
           <Link to={`/books/${book.slug}`}>
-            <img alt={book.name} src={book.image_url} className="object-cover transition-transform duration-300 group-hover:scale-105"/>
+            <img alt={book.name} src={book.image_url} className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105 bg-white rounded-xl"/>
           </Link>
           <div className="absolute right-2 top-2 z-10">
             <Button className="w-8 h-8 bg-white rounded-full p-0 hover:bg-white" onClick={toggleWishlist} type="button">
@@ -95,7 +96,7 @@ const BookCard = ({ book }: { book: Book }) => {
         </div>
         <Link to={`/books/${book.slug}`}>
           <p className="text-[10px] md:text-[12px] font-medium text-gray-700 mt-2 flex">{book.author}</p>
-          <h4 className="font-semibold leading-4.5 text-[12px] md:text-[14px] mt-1">{book.name}</h4>
+          <h4 className="font-semibold leading-4.5 text-[12px] md:text-[14px] mt-1">{book.name ? stripHtml(book.name).slice(0, 30) + "..." : "-"}</h4>
           <div className="price font-semibold text-md mt-2">
             {book.discount_price && book.discount_price > 0 ? (
               <div className="font-semibold">
